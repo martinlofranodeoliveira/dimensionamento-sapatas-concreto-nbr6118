@@ -10,6 +10,8 @@ jobs:
   test:
     name: Testes (${{ matrix.os }} / Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
     strategy:
       fail-fast: false
       matrix:
@@ -40,6 +42,8 @@ jobs:
   packaging:
     name: Empacotamento e Verificação Isolada de Rede
     runs-on: ubuntu-latest
+    env:
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v4
 
