@@ -1,0 +1,338 @@
+from __future__ import annotations
+
+import html
+from fractions import Fraction
+
+from sapatas_concreto_nbr6118.models import ResultadoProjetoSapata
+from sapatas_concreto_nbr6118.exporters import formatar_fracao_decimal
+
+
+def escapar_xml(texto: str) -> str:
+    """Escapa caracteres especiais XML para renderização segura."""
+    return html.escape(str(texto), quote=True)
+
+
+def gerar_painel_svg(resultado: ResultadoProjetoSapata) -> str:
+    """Gera um painel técnico vetorial SVG 1440x900 profissional de sapata isolada de concreto."""
+    geo = resultado.geometria
+    flex = resultado.flexao
+    punc = resultado.puncao
+    det = resultado.detalhamento
+
+    status_cor = "#10b981" if resultado.atende_geral else "#ef4444"
+    status_texto = "SAPATA CONFORME NBR 6118 / 6122" if resultado.atende_geral else "RESTRIÇÃO / NÃO CONFORME"
+
+    a_str = formatar_fracao_decimal(geo.dimensao_a_cm, 0)
+    b_str = formatar_fracao_decimal(geo.dimensao_b_cm, 0)
+    area_str = formatar_fracao_decimal(geo.area_sapata_m2, 2)
+    h_str = formatar_fracao_decimal(geo.altura_total_h_cm, 0)
+    h0_str = formatar_fracao_decimal(geo.altura_borda_h0_cm, 0)
+    d_str = formatar_fracao_decimal(geo.altura_util_d_cm, 1)
+    ca_str = formatar_fracao_decimal(geo.balanco_ca_cm, 1)
+    cb_str = formatar_fracao_decimal(geo.balanco_cb_cm, 1)
+
+    sigma_solo_str = formatar_fracao_decimal(geo.tensao_efetiva_solo_mpa, 3)
+    sigma_adm_str = formatar_fracao_decimal(geo.tensao_admissivel_solo_mpa, 3)
+
+    fsd_a_str = formatar_fracao_decimal(flex.forca_tracao_fsd_a_kn, 1)
+    fsd_b_str = formatar_fracao_decimal(flex.forca_tracao_fsd_b_kn, 1)
+    as_a_str = formatar_fracao_decimal(flex.area_aco_final_a_cm2, 2)
+    as_b_str = formatar_fracao_decimal(flex.area_aco_final_b_cm2, 2)
+
+    tau_sd_str = formatar_fracao_decimal(punc.tensao_solicitante_tau_sd_mpa, 2)
+    tau_rd2_str = formatar_fracao_decimal(punc.tensao_resistente_tau_rd2_mpa, 2)
+    theta_a_str = formatar_fracao_decimal(punc.angulo_inclinacao_biela_a_graus, 1)
+    theta_b_str = formatar_fracao_decimal(punc.angulo_inclinacao_biela_b_graus, 1)
+
+    id_proj = escapar_xml(resultado.identificacao)
+
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900">
+  <defs>
+    <!-- Gradientes de Fundo -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="footingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="soilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.8" />
+    </linearGradient>
+    <linearGradient id="columnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Filtro de Sombra -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Fundo Principal -->
+  <rect width="1440" height="900" fill="url(#bgGrad)" />
+
+  <!-- Grid Sutil de Engenharia -->
+  <g opacity="0.05" stroke="#38bdf8" stroke-width="1">
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" />
+    </pattern>
+    <rect width="1440" height="900" fill="url(#grid)" />
+  </g>
+
+  <!-- ==================== CABEÇALHO ==================== -->
+  <g transform="translate(40, 26)">
+    <!-- Logo Badge -->
+    <rect x="0" y="0" width="180" height="32" rx="6" fill="#0284c7" fill-opacity="0.2" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="90" y="21" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5" text-anchor="middle">LOFRANO TECNOLOGIA</text>
+
+    <!-- Título e Subtítulo -->
+    <text x="195" y="22" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">DIMENSIONAMENTO DE SAPATAS ISOLADAS DE CONCRETO</text>
+    <text x="195" y="42" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12">ABNT NBR 6118:2023 / ABNT NBR 6122:2022 — Método das Bielas e Tirantes (ELU / Geotécnica)</text>
+
+    <!-- Badge de Identificação do Projeto -->
+    <rect x="880" y="2" width="230" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="895" y="18" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10">ELEMENTO ESTRUTURAL:</text>
+    <text x="895" y="30" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600">{id_proj}</text>
+
+    <!-- Status Geral Badge -->
+    <rect x="1130" y="0" width="230" height="36" rx="18" fill="{status_cor}" fill-opacity="0.15" stroke="{status_cor}" stroke-width="2" />
+    <circle cx="1148" cy="18" r="6" fill="{status_cor}" />
+    <text x="1165" y="23" fill="{status_cor}" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">{status_texto}</text>
+  </g>
+
+  <!-- ==================== COLUNA ESQUERDA: VISTA EM PLANTA (A x B) ==================== -->
+  <g transform="translate(40, 85)">
+    <rect width="450" height="570" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#dropShadow)" />
+    <rect width="450" height="38" rx="10" fill="#1e293b" />
+    <text x="18" y="24" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">VISTA EM PLANTA DA BASE (A = {a_str} cm x B = {b_str} cm)</text>
+
+    <!-- Base da Sapata em Planta -->
+    <g transform="translate(65, 80)">
+      <!-- Retângulo da Sapata -->
+      <rect x="0" y="0" width="320" height="260" rx="4" fill="url(#footingGrad)" stroke="#94a3b8" stroke-width="2" />
+
+      <!-- Pilar Apoiado no Centro -->
+      <rect x="130" y="100" width="60" height="60" rx="2" fill="url(#columnGrad)" stroke="#38bdf8" stroke-width="2" />
+      <text x="160" y="135" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" text-anchor="middle">PILAR</text>
+
+      <!-- Linhas de Malha de Armadura Inferior (Direção A e B) -->
+      <g stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.6">
+        <line x1="20" y1="40" x2="300" y2="40" />
+        <line x1="20" y1="80" x2="300" y2="80" />
+        <line x1="20" y1="130" x2="300" y2="130" />
+        <line x1="20" y1="180" x2="300" y2="180" />
+        <line x1="20" y1="220" x2="300" y2="220" />
+
+        <line x1="50" y1="20" x2="50" y2="240" />
+        <line x1="100" y1="20" x2="100" y2="240" />
+        <line x1="160" y1="20" x2="160" y2="240" />
+        <line x1="220" y1="20" x2="220" y2="240" />
+        <line x1="270" y1="20" x2="270" y2="240" />
+      </g>
+
+      <!-- Balanços ca e cb -->
+      <line x1="0" y1="130" x2="130" y2="130" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="65" y="122" fill="#f59e0b" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" text-anchor="middle">ca = {ca_str} cm</text>
+
+      <line x1="190" y1="130" x2="320" y2="130" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="255" y="122" fill="#f59e0b" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" text-anchor="middle">ca = {ca_str} cm</text>
+
+      <!-- Cotas Exteriores -->
+      <!-- Cota A (Horizontal) -->
+      <line x1="0" y1="285" x2="320" y2="285" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="0" y1="275" x2="0" y2="295" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="320" y1="275" x2="320" y2="295" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="160" y="305" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Dimensão A = {a_str} cm</text>
+
+      <!-- Cota B (Vertical) -->
+      <line x1="-25" y1="0" x2="-25" y2="260" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="-35" y1="0" x2="-15" y2="0" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="-35" y1="260" x2="-15" y2="260" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="-35" y="135" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90, -35, 135)">Dimensão B = {b_str} cm</text>
+    </g>
+
+    <!-- Parâmetros de Planta -->
+    <g transform="translate(25, 435)">
+      <rect x="0" y="0" width="400" height="115" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="15" y="24" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">PROPRIEDADES GEOMÉTRICAS EM PLANTA</text>
+      <text x="15" y="48" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Área da Base de Contato:</text>
+      <text x="230" y="48" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">S = {area_str} m²</text>
+      <text x="15" y="70" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Critério de Rigidez (h >= ca/3):</text>
+      <text x="230" y="70" fill="#10b981" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">SAPATA RÍGIDA</text>
+      <text x="15" y="92" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Simetria de Balanços:</text>
+      <text x="230" y="92" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">ca = cb = {ca_str} cm (IGUAIS)</text>
+    </g>
+  </g>
+
+  <!-- ==================== COLUNA CENTRAL: ELEVAÇÃO E DISTRIBUIÇÃO DE PRESSÕES ==================== -->
+  <g transform="translate(510, 85)">
+    <!-- Painel de Elevação e Modelo de Bielas -->
+    <rect width="450" height="570" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#dropShadow)" />
+    <rect width="450" height="38" rx="10" fill="#1e293b" />
+    <text x="18" y="24" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">CORTE ELEVAÇÃO &amp; MÉTODO DAS BIELAS (h = {h_str} cm)</text>
+
+    <!-- Desenho do Corte da Sapata -->
+    <g transform="translate(50, 70)">
+      <!-- Pilar superior -->
+      <rect x="140" y="0" width="70" height="60" fill="url(#columnGrad)" stroke="#38bdf8" stroke-width="2" />
+      <text x="175" y="35" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" text-anchor="middle">Pilar Nsd</text>
+
+      <!-- Sapata Trapezoidal / Rígida -->
+      <!-- Topo plano da sapata: 140 a 210 -->
+      <!-- Borda inclinada até h0 -->
+      <polygon points="0,170 0,130 140,60 210,60 350,130 350,170" fill="url(#footingGrad)" stroke="#94a3b8" stroke-width="2" />
+
+      <!-- Bielas Comprimidas (Linhas Tracejadas Vermelhas de Compressão) -->
+      <line x1="145" y1="65" x2="35" y2="155" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4" />
+      <line x1="205" y1="65" x2="315" y2="155" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,4" />
+      <text x="80" y="105" fill="#f87171" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700">Biela θ = {theta_a_str}°</text>
+      <text x="240" y="105" fill="#f87171" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700">Biela θ = {theta_a_str}°</text>
+
+      <!-- Tirante Tracionado Inferior (Malha de Aço) -->
+      <line x1="20" y1="155" x2="330" y2="155" stroke="#38bdf8" stroke-width="4" />
+      <!-- Ganchos verticais de ancoragem -->
+      <line x1="20" y1="155" x2="20" y2="135" stroke="#38bdf8" stroke-width="4" />
+      <line x1="330" y1="155" x2="330" y2="135" stroke="#38bdf8" stroke-width="4" />
+      <text x="175" y="148" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" text-anchor="middle">Tirante As,a (Fsd,a = {fsd_a_str} kN)</text>
+
+      <!-- Camada de Concreto Magro de Lastro -->
+      <rect x="0" y="170" width="350" height="12" fill="#64748b" opacity="0.6" stroke="#475569" stroke-width="1" />
+      <text x="175" y="180" fill="#cbd5e1" font-family="'Segoe UI', Roboto, sans-serif" font-size="9" text-anchor="middle">Lastro de Concreto Magro (5 cm)</text>
+
+      <!-- Cotas de Altura -->
+      <!-- Cota h total -->
+      <line x1="375" y1="60" x2="375" y2="170" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="365" y1="60" x2="385" y2="60" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="365" y1="170" x2="385" y2="170" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="400" y="120" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">h={h_str}</text>
+
+      <!-- Cota h0 borda -->
+      <line x1="-15" y1="130" x2="-15" y2="170" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="-25" y1="130" x2="-5" y2="130" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="-25" y1="170" x2="-5" y2="170" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="-45" y="153" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">h0={h0_str}</text>
+    </g>
+
+    <!-- Diagrama de Tensões no Solo -->
+    <g transform="translate(50, 310)">
+      <rect x="0" y="0" width="350" height="75" rx="4" fill="url(#soilGrad)" stroke="#b45309" stroke-width="1.5" />
+      <text x="175" y="26" fill="#fef3c7" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" text-anchor="middle">DISTRIBUIÇÃO UNIFORME DE TENSÕES NO SOLO (ELU / ELS)</text>
+
+      <!-- Setas de reação vertical do solo -->
+      <g stroke="#f59e0b" stroke-width="2">
+        <line x1="40" y1="65" x2="40" y2="40" />
+        <polyline points="36,46 40,40 44,46" fill="none" />
+        <line x1="100" y1="65" x2="100" y2="40" />
+        <polyline points="96,46 100,40 104,46" fill="none" />
+        <line x1="175" y1="65" x2="175" y2="40" />
+        <polyline points="171,46 175,40 179,46" fill="none" />
+        <line x1="250" y1="65" x2="250" y2="40" />
+        <polyline points="246,46 250,40 254,46" fill="none" />
+        <line x1="310" y1="65" x2="310" y2="40" />
+        <polyline points="306,46 310,40 314,46" fill="none" />
+      </g>
+      <text x="175" y="62" fill="#fde68a" font-family="'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="600" text-anchor="middle">σ_solo = {sigma_solo_str} MPa ≤ σ_adm = {sigma_adm_str} MPa (CONFORME)</text>
+    </g>
+
+    <!-- Caixa de Detalhamento das Barras -->
+    <g transform="translate(25, 435)">
+      <rect x="0" y="0" width="400" height="115" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="15" y="24" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">DETALHAMENTO DAS ARMADURAS EM MALHA</text>
+      <text x="15" y="48" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Direção A (paralela a ap):</text>
+      <text x="210" y="48" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">{det.barras_direcao_a}</text>
+      <text x="15" y="70" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Direção B (paralela a bp):</text>
+      <text x="210" y="70" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">{det.barras_direcao_b}</text>
+      <text x="15" y="92" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Ganchos de Ancoragem:</text>
+      <text x="210" y="92" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Lg = {formatar_fracao_decimal(det.comprimento_gancho_cm, 0)} cm nas 4 bordas</text>
+    </g>
+  </g>
+
+  <!-- ==================== COLUNA DIREITA: MEMÓRIA NORMATIVA NBR 6118 / 6122 ==================== -->
+  <g transform="translate(980, 85)">
+    <!-- Painel 1: Dimensionamento e Verificações ELU -->
+    <rect x="0" y="0" width="420" height="330" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#dropShadow)" />
+    <rect x="0" y="0" width="420" height="38" rx="10" fill="#1e293b" />
+    <text x="18" y="24" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">DIMENSIONAMENTO E VERIFICAÇÕES ELU</text>
+
+    <g transform="translate(18, 55)">
+      <!-- Item 1: Tração Fsd,a -->
+      <circle cx="8" cy="12" r="4" fill="#10b981" />
+      <text x="22" y="16" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Força Tração Direção A:</text>
+      <text x="200" y="16" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Fsd,a = {fsd_a_str} kN</text>
+
+      <!-- Item 2: Armadura As,a -->
+      <circle cx="8" cy="42" r="4" fill="#10b981" />
+      <text x="22" y="46" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Armadura Adotada As,a:</text>
+      <text x="200" y="46" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">{as_a_str} cm² (Mín: {formatar_fracao_decimal(flex.area_aco_minima_a_cm2, 2)} cm²)</text>
+
+      <!-- Item 3: Tração Fsd,b -->
+      <circle cx="8" cy="72" r="4" fill="#10b981" />
+      <text x="22" y="76" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Força Tração Direção B:</text>
+      <text x="200" y="76" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">Fsd,b = {fsd_b_str} kN</text>
+
+      <!-- Item 4: Armadura As,b -->
+      <circle cx="8" cy="102" r="4" fill="#10b981" />
+      <text x="22" y="106" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Armadura Adotada As,b:</text>
+      <text x="200" y="106" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">{as_b_str} cm² (Mín: {formatar_fracao_decimal(flex.area_aco_minima_b_cm2, 2)} cm²)</text>
+
+      <!-- Item 5: Tensão Cisalhante Ligação -->
+      <circle cx="8" cy="132" r="4" fill="#10b981" />
+      <text x="22" y="136" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Cisalhamento Ligação:</text>
+      <text x="200" y="136" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">τsd = {tau_sd_str} MPa (≤ {tau_rd2_str} MPa)</text>
+
+      <!-- Item 6: Esmagamento Biela -->
+      <circle cx="8" cy="162" r="4" fill="#10b981" />
+      <text x="22" y="166" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Biela Pilar-Sapata:</text>
+      <text x="200" y="166" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">ATENDE COMPRESSÃO DIAGONAL</text>
+
+      <!-- Item 7: Ângulo Biela -->
+      <circle cx="8" cy="192" r="4" fill="#10b981" />
+      <text x="22" y="196" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Inclinação das Bielas:</text>
+      <text x="200" y="196" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">θ = {theta_a_str}° ≥ 30° (DISPENSA PUNÇÃO)</text>
+    </g>
+
+    <!-- Painel 2: Síntese de Conformidades e Segurança Geotécnica -->
+    <rect x="0" y="340" width="420" height="225" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" filter="url(#dropShadow)" />
+    <rect x="0" y="340" width="420" height="38" rx="10" fill="#1e293b" />
+    <text x="18" y="364" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">CONFORMIDADES E GARANTIAS NORMATIVAS</text>
+
+    <g transform="translate(18, 395)">
+      <circle cx="8" cy="12" r="4" fill="#10b981" />
+      <text x="22" y="16" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Tensão Admissível do Solo:</text>
+      <text x="200" y="16" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">CONFORME (NBR 6122)</text>
+
+      <circle cx="8" cy="42" r="4" fill="#10b981" />
+      <text x="22" y="46" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Classificação Estrutural:</text>
+      <text x="200" y="46" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">SAPATA RÍGIDA (NBR 6118)</text>
+
+      <circle cx="8" cy="72" r="4" fill="#10b981" />
+      <text x="22" y="76" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Armadura Mínima NBR 6118:</text>
+      <text x="200" y="76" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">CONFORME (ρmin = 0,15%)</text>
+
+      <circle cx="8" cy="102" r="4" fill="#10b981" />
+      <text x="22" y="106" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">Cobrimento de Fundação:</text>
+      <text x="200" y="106" fill="#94a3b8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">cnom = 4,0 cm (Com Lastro 5cm)</text>
+    </g>
+
+    <!-- Box de Garantia Zero Float -->
+    <rect x="0" y="580" width="420" height="40" rx="6" fill="#0284c7" fill-opacity="0.15" stroke="#0284c7" stroke-width="1" />
+    <text x="210" y="605" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" text-anchor="middle">GARANTIA TÉCNICA: MOTOR DETERMINÍSTICO ZERO FLOAT</text>
+  </g>
+
+  <!-- ==================== RODAPÉ ==================== -->
+  <g transform="translate(40, 868)">
+    <line x1="0" y1="0" x2="1360" y2="0" stroke="#334155" stroke-width="1" />
+    <text x="0" y="18" fill="#64748b" font-family="'Segoe UI', Roboto, sans-serif" font-size="11">LOFRANO TECNOLOGIA • Fundações e Concreto Armado • ABNT NBR 6118:2023 / ABNT NBR 6122:2022 • Código Aberto MIT</text>
+    <text x="1360" y="18" fill="#64748b" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" text-anchor="end">Cálculo Racional e Determinístico sem Aproximação IEEE-754</text>
+  </g>
+</svg>"""
+    return svg

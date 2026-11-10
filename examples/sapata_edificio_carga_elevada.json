@@ -1,0 +1,40 @@
+{
+  "identificacao": "Sapata S204 - Edifício Comercial Metrópole",
+  "pilar": {
+    "largura_ap_cm": {
+      "num": 30,
+      "den": 1
+    },
+    "comprimento_bp_cm": {
+      "num": 60,
+      "den": 1
+    },
+    "carga_normal_nk_kn": {
+      "num": 1200,
+      "den": 1
+    }
+  },
+  "solo": {
+    "tensao_admissivel_sigma_adm_mpa": {
+      "num": 30,
+      "den": 100
+    },
+    "descricao_camada": "Solo residual de gnaisse rijo"
+  },
+  "materiais": {
+    "classe_concreto_fck": 30,
+    "tipo_aco": "CA_50",
+    "classe_agressividade": "CAA_II"
+  },
+  "detalhamento": {
+    "bitola_sugerida_a_mm": {
+      "num": 125,
+      "den": 10
+    },
+    "bitola_sugerida_b_mm": {
+      "num": 125,
+      "den": 10
+    },
+    "adotar_ganchos_ancoragem": true
+  }
+}

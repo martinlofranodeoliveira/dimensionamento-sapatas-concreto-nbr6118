@@ -1,0 +1,45 @@
+================================================================================
+       LOFRANO TECNOLOGIA - ENGENHARIA DE FUNDAÇÕES E ESTRUTURAS
+         MEMORIAL DE CÁLCULO NORMATIVO - SAPATAS ISOLADAS DE CONCRETO
+================================================================================
+Projeto / Identificação: Sapata S101 - Residencial Parque das Flores
+Normas Regulamentadoras: ABNT NBR 6118:2023, ABNT NBR 6122:2022
+Status de Aprovação:     APROVADO
+--------------------------------------------------------------------------------
+1. CARACTERÍSTICAS GEOMÉTRICAS DA SAPATA E PRESSÕES DE CONTATO
+  - Dimensões da base (A x B): 145 x 165 cm (Área: 2,39 m²)
+  - Balanços da sapata:        ca = 62,5 cm | cb = 62,5 cm (Balanços iguais: SIM)
+  - Altura total (h):          45 cm (Critério de rigidez: RIGIDA)
+  - Altura da borda (h0):      15 cm
+  - Altura útil (d):           40 cm
+  - Tensão efetiva no solo:    0,197 MPa (Admissível: 0,200 MPa) -> CONFORME
+
+2. DIMENSIONAMENTO À FLEXÃO (MÉTODO DAS BIELAS E TIRANTES)
+  - Força de tração Fsd,a:     246,09 kN
+  - Força de tração Fsd,b:     246,09 kN
+  - Armadura calculada As,a:   5,66 cm² (Mínima: 11,14 cm²)
+  - Armadura calculada As,b:   5,66 cm² (Mínima: 9,79 cm²)
+  - Armadura adotada As,a:     11,14 cm²
+  - Armadura adotada As,b:     9,79 cm²
+
+3. VERIFICAÇÃO DE PUNÇÃO E COMPRESSÃO DIAGONAL (ELU)
+  - Força normal de cálculo:   Nsd = 630 kN
+  - Perímetro crítico u0:      120 cm (contorno do pilar)
+  - Tensão de cisalhamento:    tau_sd = 1,31 MPa (Limite biela tau_Rd2 = 4,34 MPa) -> CONFORME
+  - Inclinação da biela:       theta,a = 32,6° | theta,b = 32,6° (Dispensa armadura de punção: SIM)
+
+4. DETALHAMENTO DA MALHA DE ARMADURA INFERIOR
+  - Direção A (paralela a ap): 15 Φ 10.0 mm c/ 11.2 cm (As,ef = 11,78 cm²)
+  - Direção B (paralela a bp): 13 Φ 10.0 mm c/ 11.4 cm (As,ef = 10,21 cm²)
+  - Gancho de ancoragem:       37 cm nas extremidades
+
+5. SÍNTESE DE CONFORMIDADES
+  - [tensao_solo]:                 CONFORME
+  - [rigidez_sapata]:             CONFORME
+  - [compressao_diagonal_biela]:   CONFORME
+  - [dispensa_puncao]:             CONFORME
+  RECOMENDAÇÕES EXECUTIVAS:
+    [*] Sapata isolada e detalhamento plenamente conformes às normas ABNT NBR 6118:2023 e ABNT NBR 6122:2022.
+================================================================================
+LOFRANO TECNOLOGIA - Soluções Determinísticas e Engenharia Confiável.
+================================================================================

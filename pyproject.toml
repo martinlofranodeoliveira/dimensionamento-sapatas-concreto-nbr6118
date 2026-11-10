@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dimensionamento-sapatas-concreto-nbr6118"
+version = "1.0.0"
+description = "Dimensionamento determinístico e verificação estrutural de sapatas isoladas de concreto armado segundo ABNT NBR 6118:2023 e ABNT NBR 6122:2022 (Zero Float)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Martin Lofrano de Oliveira / LOFRANO TECNOLOGIA", email = "martinlofranodeoliveira@users.noreply.github.com" },
+]
+keywords = [
+  "concreto-armado",
+  "fundacoes",
+  "sapatas-isoladas",
+  "nbr6118",
+  "nbr6122",
+  "engenharia-estrutural",
+  "zero-float",
+  "fracoes-exatas",
+  "lofrano-tecnologia",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.scripts]
+sapatas-concreto = "sapatas_concreto_nbr6118.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sapatas_concreto_nbr6118 = ["py.typed"]

@@ -1,0 +1,163 @@
+{
+  "alertas": [],
+  "atende_geral": true,
+  "conformidades": {
+    "compressao_diagonal_biela": true,
+    "dispensa_puncao": true,
+    "rigidez_sapata": true,
+    "tensao_solo": true
+  },
+  "detalhamento": {
+    "area_efetiva_a_cm2": {
+      "den": 1000,
+      "num": 11781
+    },
+    "area_efetiva_b_cm2": {
+      "den": 5000,
+      "num": 51051
+    },
+    "barras_direcao_a": "15 Φ 10.0 mm c/ 11.2 cm",
+    "barras_direcao_b": "13 Φ 10.0 mm c/ 11.4 cm",
+    "bitola_a_mm": {
+      "den": 1,
+      "num": 10
+    },
+    "bitola_b_mm": {
+      "den": 1,
+      "num": 10
+    },
+    "comprimento_gancho_cm": {
+      "den": 1,
+      "num": 37
+    },
+    "espacamento_a_cm": {
+      "den": 14,
+      "num": 157
+    },
+    "espacamento_b_cm": {
+      "den": 12,
+      "num": 137
+    },
+    "numero_barras_a": 15,
+    "numero_barras_b": 13,
+    "observacoes": [
+      "Armadura inferior disposta em malha cruzada sobre lastro de concreto magro (cnom = 4.0 cm).",
+      "Ganchos verticais de 37.0 cm previstos nas extremidades para ancoragem total no concreto."
+    ]
+  },
+  "flexao": {
+    "area_aco_calculada_a_cm2": {
+      "den": 256,
+      "num": 1449
+    },
+    "area_aco_calculada_b_cm2": {
+      "den": 256,
+      "num": 1449
+    },
+    "area_aco_final_a_cm2": {
+      "den": 80,
+      "num": 891
+    },
+    "area_aco_final_b_cm2": {
+      "den": 80,
+      "num": 783
+    },
+    "area_aco_minima_a_cm2": {
+      "den": 80,
+      "num": 891
+    },
+    "area_aco_minima_b_cm2": {
+      "den": 80,
+      "num": 783
+    },
+    "forca_tracao_fsd_a_kn": {
+      "den": 32,
+      "num": 7875
+    },
+    "forca_tracao_fsd_b_kn": {
+      "den": 32,
+      "num": 7875
+    }
+  },
+  "geometria": {
+    "altura_borda_h0_cm": {
+      "den": 1,
+      "num": 15
+    },
+    "altura_total_h_cm": {
+      "den": 1,
+      "num": 45
+    },
+    "altura_util_d_cm": {
+      "den": 1,
+      "num": 40
+    },
+    "area_sapata_m2": {
+      "den": 400,
+      "num": 957
+    },
+    "atende_tensao_solo": true,
+    "balanco_ca_cm": {
+      "den": 2,
+      "num": 125
+    },
+    "balanco_cb_cm": {
+      "den": 2,
+      "num": 125
+    },
+    "balancos_iguais": true,
+    "dimensao_a_cm": {
+      "den": 1,
+      "num": 145
+    },
+    "dimensao_b_cm": {
+      "den": 1,
+      "num": 165
+    },
+    "e_sapata_rigida": true,
+    "tensao_admissivel_solo_mpa": {
+      "den": 5,
+      "num": 1
+    },
+    "tensao_efetiva_solo_mpa": {
+      "den": 319,
+      "num": 63
+    }
+  },
+  "identificacao": "Sapata S101 - Residencial Parque das Flores",
+  "normas": [
+    "ABNT NBR 6118:2023",
+    "ABNT NBR 6122:2022"
+  ],
+  "puncao": {
+    "angulo_inclinacao_biela_a_graus": {
+      "den": 5,
+      "num": 163
+    },
+    "angulo_inclinacao_biela_b_graus": {
+      "den": 5,
+      "num": 163
+    },
+    "atende_compressão_diagonal_biela": true,
+    "dispensa_armadura_puncao": true,
+    "forca_normal_nsd_kn": {
+      "den": 1,
+      "num": 630
+    },
+    "perimetro_critico_u0_cm": {
+      "den": 1,
+      "num": 120
+    },
+    "tensao_resistente_tau_rd2_mpa": {
+      "den": 56,
+      "num": 243
+    },
+    "tensao_solicitante_tau_sd_mpa": {
+      "den": 16,
+      "num": 21
+    }
+  },
+  "recomendacoes": [
+    "Sapata isolada e detalhamento plenamente conformes às normas ABNT NBR 6118:2023 e ABNT NBR 6122:2022."
+  ]
+}

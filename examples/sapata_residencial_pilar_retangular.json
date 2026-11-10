@@ -1,0 +1,40 @@
+{
+  "identificacao": "Sapata S101 - Residencial Parque das Flores",
+  "pilar": {
+    "largura_ap_cm": {
+      "num": 20,
+      "den": 1
+    },
+    "comprimento_bp_cm": {
+      "num": 40,
+      "den": 1
+    },
+    "carga_normal_nk_kn": {
+      "num": 450,
+      "den": 1
+    }
+  },
+  "solo": {
+    "tensao_admissivel_sigma_adm_mpa": {
+      "num": 20,
+      "den": 100
+    },
+    "descricao_camada": "Solo arenoso mediamente compacto"
+  },
+  "materiais": {
+    "classe_concreto_fck": 25,
+    "tipo_aco": "CA_50",
+    "classe_agressividade": "CAA_II"
+  },
+  "detalhamento": {
+    "bitola_sugerida_a_mm": {
+      "num": 100,
+      "den": 10
+    },
+    "bitola_sugerida_b_mm": {
+      "num": 100,
+      "den": 10
+    },
+    "adotar_ganchos_ancoragem": true
+  }
+}

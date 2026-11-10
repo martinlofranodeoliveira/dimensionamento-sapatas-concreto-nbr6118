@@ -1,0 +1,28 @@
+Categoria;Parâmetro;Valor Calculado / Adotado;Unidade;Referência Normativa;Conformidade
+Geometria;Dimensão A (paralela a ap);145;cm;NBR 6118 / NBR 6122;CONFORME
+Geometria;Dimensão B (paralela a bp);165;cm;NBR 6118 / NBR 6122;CONFORME
+Geometria;Área da base;2,39;m²;NBR 6122 item 3.48;CONFORME
+Geometria;Balanço ca;62,5;cm;Critério balanços iguais;CONFORME
+Geometria;Balanço cb;62,5;cm;Critério balanços iguais;CONFORME
+Geometria;Altura total (h);45;cm;NBR 6118 item 22.4;CONFORME
+Geometria;Altura da borda (h0);15;cm;NBR 6118 item 22.4;CONFORME
+Geometria;Altura útil (d);40;cm;NBR 6118 item 17.2;CONFORME
+Geotécnica;Tensão efetiva no solo;0,197;MPa;NBR 6122 item 6.2;CONFORME
+Geotécnica;Tensão admissível solo;0,200;MPa;NBR 6122;CONFORME
+Flexão ELU;Força de tração Fsd,a;246,09;kN;Método das Bielas;CONFORME
+Flexão ELU;Força de tração Fsd,b;246,09;kN;Método das Bielas;CONFORME
+Flexão ELU;Armadura calculada As,a;5,66;cm²;NBR 6118 item 22.4;CONFORME
+Flexão ELU;Armadura calculada As,b;5,66;cm²;NBR 6118 item 22.4;CONFORME
+Flexão ELU;Armadura mínima As,min,a;11,14;cm²;NBR 6118 Tabela 17.3;CONFORME
+Flexão ELU;Armadura mínima As,min,b;9,79;cm²;NBR 6118 Tabela 17.3;CONFORME
+Flexão ELU;Armadura final As,a;11,14;cm²;NBR 6118;CONFORME
+Flexão ELU;Armadura final As,b;9,79;cm²;NBR 6118;CONFORME
+Punção ELU;Perímetro crítico u0;120;cm;NBR 6118 item 19.5;CONFORME
+Punção ELU;Tensão solicitante tau_sd;1,31;MPa;NBR 6118 item 19.5;CONFORME
+Punção ELU;Resistência biela tau_Rd2;4,34;MPa;NBR 6118 item 19.5;CONFORME
+Punção ELU;Ângulo biela theta,a;32,6;graus;NBR 6118 item 22.4;CONFORME
+Detalhamento;Malha direção A;15 Φ 10.0 mm c/ 11.2 cm;barras;NBR 6118;CONFORME
+Detalhamento;Área efetiva As,ef,a;11,78;cm²;NBR 6118;CONFORME
+Detalhamento;Malha direção B;13 Φ 10.0 mm c/ 11.4 cm;barras;NBR 6118;CONFORME
+Detalhamento;Área efetiva As,ef,b;10,21;cm²;NBR 6118;CONFORME
+Detalhamento;Gancho de ancoragem;37;cm;NBR 6118 item 9.4;CONFORME
