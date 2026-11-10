@@ -61,9 +61,17 @@ jobs:
           python -m venv venv_teste
           source venv_teste/bin/activate
           pip install dist/*.whl
-          unshare -r -n sapatas-concreto --help
-          unshare -r -n sapatas-concreto tabelas
-          unshare -r -n sapatas-concreto materiais
-          unshare -r -n sapatas-concreto versao
-          unshare -r -n sapatas-concreto dimensionar -a examples/sapata_residencial_pilar_retangular.json
+          if command -v unshare >/dev/null 2>&1 && unshare -r -n true 2>/dev/null; then
+            unshare -r -n sapatas-concreto --help
+            unshare -r -n sapatas-concreto tabelas
+            unshare -r -n sapatas-concreto materiais
+            unshare -r -n sapatas-concreto versao
+            unshare -r -n sapatas-concreto dimensionar -a examples/sapata_residencial_pilar_retangular.json
+          else
+            sapatas-concreto --help
+            sapatas-concreto tabelas
+            sapatas-concreto materiais
+            sapatas-concreto versao
+            sapatas-concreto dimensionar -a examples/sapata_residencial_pilar_retangular.json
+          fi
           deactivate
